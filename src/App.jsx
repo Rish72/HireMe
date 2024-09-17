@@ -36,7 +36,7 @@ const router = createBrowserRouter([
         element: <OnBoarding />,
       },
       {
-        path: "/post-job",
+        path: "/post-jobs",
         element: <PostJob />,
       },
       {

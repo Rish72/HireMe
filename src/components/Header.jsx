@@ -12,14 +12,7 @@ const Header = () => {
       <img src={LogoImg} alt="Logo of website" className='h-10'/>  
     </Link>
     <Button variant="outline"> Login </Button>
-    
-    
-    
-    
-    
-    
-    
-    
+  
     {/* <SignedOut>
         <SignInButton />
       </SignedOut>

@@ -9,7 +9,7 @@ const AppLayout = () => {
         <Header />
         <Outlet />
       </main>
-      <div className="p-4 text-center bg-gray-800 m-5">
+      <div className="py-2 text-center bg-gray-800">
         Made with ❤️ by Rishabh Goel
       </div>
     </div>
