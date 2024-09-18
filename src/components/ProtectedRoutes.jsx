@@ -2,7 +2,7 @@ import React from 'react'
 import { useUser } from '@clerk/clerk-react'
 import { Navigate, useLocation } from 'react-router-dom';
 
-function ProtectedRoutes() {
+function ProtectedRoutes({children}) {
   const {isSignedIn, user ,isLoaded} = useUser();
   const {pathname} =useLocation();
 
@@ -11,6 +11,12 @@ function ProtectedRoutes() {
   }
 
   // Check onBoarding status if the user is candidate or recuiter
+  
+  if(user !== undefined && !user?.unsafeMetadata?.role && pathname!=="/onboarding"){
+    return <Navigate to="/onboarding" />
+  }
+
+  return children
 }
 
 export default ProtectedRoutes

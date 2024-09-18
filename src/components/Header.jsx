@@ -7,30 +7,30 @@ import {
   SignedOut,
   UserButton,
   SignIn,
+  useUser,
 } from "@clerk/clerk-react";
 
 import { BriefcaseBusiness, Heart, PenBox } from "lucide-react";
 import { useState } from "react";
 
 const Header = () => {
+  const { user } = useUser();
   const [showSignIn, setShowSignIn] = useState(false);
   const [search, setSearch] = useSearchParams();
   // console.log(search);/
-  
+
   useEffect(() => {
-    if (search.get('sign-in') !== null) {  
-      setShowSignIn(true); 
+    if (search.get("sign-in") !== null) {
+      setShowSignIn(true);
     }
   }, [search]);
 
-
-
-  const  handleFormShow= (e) => {
-    if(e.target === e.currentTarget){
-      setShowSignIn(false)
+  const handleFormShow = (e) => {
+    if (e.target === e.currentTarget) {
+      setShowSignIn(false);
       setSearch({});
     }
-  }
+  };
 
   return (
     <>
@@ -47,24 +47,32 @@ const Header = () => {
             </Button>
           </SignedOut>
           <SignedIn>
-            <Link to={"/post-jobs"}>
-              <Button variant="destructive" className="rounded-full">
-                <PenBox size={20} className="mr-2" />
-                Post a job
-              </Button>
-            </Link>
-            <UserButton appearance={{
-              elements: {
-                avatarBox : "w-10 h-10"
-              }
-            }}>
+            {user?.unsafeMetadata?.role === "recruiter" && (
+              <Link to={"/post-jobs"}>
+                <Button variant="destructive" className="rounded-full">
+                  <PenBox size={20} className="mr-2" />
+                  Post a job
+                </Button>
+              </Link>
+            )}
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-10 h-10",
+                },
+              }}
+            >
               <UserButton.MenuItems>
-                <UserButton.Link label="My Jobs"
+                <UserButton.Link
+                  label="My Jobs"
                   labelIcon={<BriefcaseBusiness size={15} />}
-                  href="/my-jobs"  />
-                  <UserButton.Link label="Save Jobs"
+                  href="/my-jobs"
+                />
+                <UserButton.Link
+                  label="Save Jobs"
                   labelIcon={<Heart size={15} />}
-                  href="/savedjobs"  />
+                  href="/savedjobs"
+                />
               </UserButton.MenuItems>
             </UserButton>
           </SignedIn>
@@ -72,8 +80,10 @@ const Header = () => {
       </nav>
 
       {showSignIn && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-black-50  bg-opacity-70 backdrop-blur-sm"
-        onClick={handleFormShow}>
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-black-50  bg-opacity-70 backdrop-blur-sm"
+          onClick={handleFormShow}
+        >
           <SignIn
             signUpForceRedirectUrl="/onboarding"
             fallbackRedirectUrl="/onboarding"
