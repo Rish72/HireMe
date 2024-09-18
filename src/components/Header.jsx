@@ -6,19 +6,24 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-  SignInButton,
   SignIn,
 } from "@clerk/clerk-react";
 
-import { PenBox } from "lucide-react";
+import { BriefcaseBusiness, Heart, PenBox } from "lucide-react";
 import { useState } from "react";
 
 const Header = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [search, setSearch] = useSearchParams();
-  console.log("searched params");
-  console.log(search);
+  // console.log(search);/
   
+  useEffect(() => {
+    if (search.get('sign-in') !== null) {  
+      setShowSignIn(true); 
+    }
+  }, [search]);
+
+
 
   const  handleFormShow= (e) => {
     if(e.target === e.currentTarget){
@@ -26,12 +31,6 @@ const Header = () => {
       setSearch({});
     }
   }
-
-  useEffect(() => {
-    if(search.get('sign-in')){
-      setShowSignIn(true);
-    }
-   },[search])
 
   return (
     <>
@@ -54,7 +53,20 @@ const Header = () => {
                 Post a job
               </Button>
             </Link>
-            <UserButton />
+            <UserButton appearance={{
+              elements: {
+                avatarBox : "w-10 h-10"
+              }
+            }}>
+              <UserButton.MenuItems>
+                <UserButton.Link label="My Jobs"
+                  labelIcon={<BriefcaseBusiness size={15} />}
+                  href="/my-jobs"  />
+                  <UserButton.Link label="Save Jobs"
+                  labelIcon={<Heart size={15} />}
+                  href="/savedjobs"  />
+              </UserButton.MenuItems>
+            </UserButton>
           </SignedIn>
         </div>
       </nav>
